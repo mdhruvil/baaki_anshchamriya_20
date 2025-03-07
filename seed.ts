@@ -10,7 +10,7 @@ export async function seed() {
     const db = drizzle(client);
 
     // We'll use the existing user with ID be658c00-2803-487a-b824-319798bb9d9e
-    const existingUserId = "a3e04f4d-002a-4687-8f6f-de23aeef57b6";
+    const existingUserId = "43d9b65a-a870-4ab0-b5eb-fc4ca22a2db7";
 
     // Create additional users
     const newUserId1 = crypto.randomUUID();

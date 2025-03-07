@@ -1,16 +1,15 @@
 "use client";
 
 import {
-  ShopHeader,
   PaymentActions,
+  ShopHeader,
   TransactionMessage,
 } from "@/components/ui/chat-comp";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef } from "react";
 import { api } from "@/trpc/react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useRef } from "react";
 
 export default function ChatPage() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const shopId = searchParams.get("shopId");
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -44,13 +43,21 @@ export default function ChatPage() {
   return (
     <div className="flex h-screen flex-col bg-white text-gray-900">
       <ShopHeader shop={data.shop} />
-      <main className="flex flex-1 flex-col overflow-y-auto p-4">
+      <main className="flex flex-1 flex-col p-4">
         {data.transactions.map((transaction) => (
           <TransactionMessage key={transaction.id} transaction={transaction} />
         ))}
         <div ref={messagesEndRef} />
       </main>
-      <PaymentActions upiId={data.shop.upiId} />
+      <div className="fixed bottom-0 left-0 w-full">
+        <PaymentActions
+          upiId={data.shop.upiId}
+          totalAmount={data.transactions.reduce(
+            (acc, curr) => (curr.isPaid ? acc : acc + curr.amount),
+            0,
+          )}
+        />
+      </div>
     </div>
   );
 }

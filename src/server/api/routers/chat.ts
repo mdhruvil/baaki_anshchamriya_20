@@ -14,7 +14,7 @@ export const chatRouter = createTRPCRouter({
 
       const transactions = await db.query.transactions.findMany({
         where: (transaction, { eq }) => eq(transaction.shopId, shopId),
-        orderBy: (transaction, { desc }) => desc(transaction.createdAt),
+        orderBy: (transaction, { asc }) => asc(transaction.createdAt),
         with: {
           shop: true,
         },

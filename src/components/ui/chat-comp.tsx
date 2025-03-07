@@ -3,14 +3,48 @@ import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import { type shops, type transactions } from "@/server/db/schema";
 import { formatDate } from "date-fns";
-import { Button } from "./button";
+import { Button, buttonVariants } from "./button";
 
-export function PaymentActions({ upiId }: { upiId: string }) {
+export function PaymentActions({
+  upiId,
+  totalAmount,
+}: {
+  upiId: string;
+  totalAmount: number;
+}) {
+  const upiUrl = new URL("upi://pay");
+  upiUrl.searchParams.append("pa", upiId);
+  upiUrl.searchParams.append("am", totalAmount.toString());
+  upiUrl.searchParams.append("tn", "Settlement from baaki.app");
   return (
-    <div className="flex justify-center gap-4 border-t border-gray-200 p-4">
-      <Button size="lg">Pay</Button>
-      <Button size="lg">Request</Button>
-    </div>
+    <>
+      <div className="flex justify-end gap-2 border-t border-gray-200 p-4">
+        <Link
+          href={`/pay?upiId=${upiId}`}
+          className={buttonVariants({ size: "lg" })}
+        >
+          Add credit
+        </Link>
+        {totalAmount === 0 ? (
+          <Button size="lg" disabled>
+            Nothing to settle
+          </Button>
+        ) : (
+          <Link
+            href={upiUrl.toString()}
+            className={buttonVariants({ size: "lg" })}
+          >
+            Settle{" "}
+            {new Intl.NumberFormat("en-IN", {
+              currency: "INR",
+              style: "currency",
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 2,
+            }).format(totalAmount)}
+          </Link>
+        )}{" "}
+      </div>
+    </>
   );
 }
 
@@ -52,7 +86,14 @@ export function TransactionMessage({
     <div
       className={`mb-4 max-w-[65%] rounded-[16px] bg-gray-100 p-4 text-gray-900`}
     >
-      <p className="mb-2 text-3xl font-medium">₹{transaction.amount}</p>
+      <p className="mb-2 text-3xl font-medium">
+        {new Intl.NumberFormat("en-IN", {
+          currency: "INR",
+          style: "currency",
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2,
+        }).format(transaction.amount)}
+      </p>
       {transaction.notes && (
         <div className="mb-2">
           <p className="text-sm text-gray-600">{transaction.notes}</p>

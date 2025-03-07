@@ -14,13 +14,16 @@ export const transactionRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const txn = await db.insert(transactions).values({
-        shopId: input.shopId,
-        customerId: ctx.session.user.id,
-        amount: input.amount,
-        isPaid: false,
-        notes: input.notes,
-      });
+      const txn = await db
+        .insert(transactions)
+        .values({
+          shopId: input.shopId,
+          customerId: ctx.session.user.id,
+          amount: input.amount,
+          isPaid: false,
+          notes: input.notes,
+        })
+        .returning();
       return txn;
     }),
 });
