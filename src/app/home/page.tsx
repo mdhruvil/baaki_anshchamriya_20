@@ -87,32 +87,36 @@ export default function Page() {
         <h3 className="text-lg font-semibold">Transactions</h3>
         <div className="space-y-6">
           {data.transactions.map((transaction) => (
-            <div key={transaction.id} className="flex items-center gap-3">
-              <Link href={`/chat?shopId=${transaction.shopId}`}>
+            <Link
+              key={transaction.id}
+              className="block"
+              href={`/transaction?id=${transaction.id}`}
+            >
+              <div className="flex items-center gap-3">
                 <Avatar className="size-10">
                   <AvatarImage src={transaction.shop?.image ?? ""} />
                   <AvatarFallback>{transaction.shop?.name}</AvatarFallback>
                 </Avatar>
-              </Link>
-              <div className="flex w-full items-center justify-between gap-2">
-                <div>
-                  <p className="line-clamp-1 text-sm">
-                    {transaction.shop?.name}
-                  </p>
-                  <p className="text-muted-foreground text-xs">
-                    {formatDate(transaction.createdAt ?? "", "dd MMMM")}
-                  </p>
-                </div>
-                <div>
-                  {new Intl.NumberFormat("en-IN", {
-                    currency: "INR",
-                    style: "currency",
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 2,
-                  }).format(transaction.amount)}
+                <div className="flex w-full items-center justify-between gap-2">
+                  <div>
+                    <p className="line-clamp-1 text-sm">
+                      {transaction.shop?.name}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {formatDate(transaction.createdAt ?? "", "dd MMMM")}
+                    </p>
+                  </div>
+                  <div>
+                    {new Intl.NumberFormat("en-IN", {
+                      currency: "INR",
+                      style: "currency",
+                      minimumFractionDigits: 0,
+                      maximumFractionDigits: 2,
+                    }).format(transaction.amount)}
+                  </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
