@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Apple, Smartphone } from "lucide-react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -11,7 +11,6 @@ interface BeforeInstallPromptEvent extends Event {
 }
 
 export default function InstallPage() {
-  const router = useRouter();
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(null);
   const [isInstallable, setIsInstallable] = useState(false);
@@ -50,30 +49,31 @@ export default function InstallPage() {
     const { outcome } = await deferredPrompt.userChoice;
     if (outcome === "accepted") {
       setIsInstallable(false);
-      router.push("/home");
     }
     setDeferredPrompt(null);
   };
 
   return (
-    <div className="bg-background text-foreground mx-auto min-h-screen max-w-md p-4">
+    <div className="mx-auto min-h-screen max-w-md bg-background p-4 text-foreground">
       <h1 className="mb-4 text-2xl font-bold">Install Our App</h1>
-      <p className="mb-6">Install our app for a better experience.</p>
+      <p className="mb-2">Install our app.</p>
+      <p className="text-lg font-bold">
+        After installing the app, open the installed app.
+      </p>
+      <p className="mb-4">
+        If you can&apos;t install the app{" "}
+        <Link href={"/home"} className={buttonVariants({ variant: "link" })}>
+          click here
+        </Link>
+        .
+      </p>
 
       {isInstallable ? (
         <Button onClick={handleInstallClick} className="mb-4 w-full" size="lg">
           Install App
         </Button>
       ) : (
-        !isLoading && (
-          <Button
-            onClick={() => router.push("/home")}
-            className="mb-4 w-full"
-            size="lg"
-          >
-            Continue to App
-          </Button>
-        )
+        !isLoading && <></>
       )}
 
       <div className="mt-8">

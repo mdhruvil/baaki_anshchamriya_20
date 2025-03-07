@@ -103,13 +103,17 @@ export default function Page() {
         <h3 className="text-lg font-semibold">Transactions</h3>
         <div className="space-y-6">
           {data.transactions.map((transaction) => (
-            <div key={transaction.id} className="flex items-center gap-3">
-              <Link href={`/chat?shopId=${transaction.shopId}`}>
+            <Link
+              key={transaction.id}
+              className="block"
+              href={`/transaction?id=${transaction.id}`}
+            >
+              <div className="flex items-center gap-3">
                 <Avatar className="size-10">
                   <AvatarImage src={transaction.shop?.image ?? ""} />
                   <AvatarFallback>{transaction.shop?.name}</AvatarFallback>
                 </Avatar>
-              </Link>
+             
               <div className="flex w-full items-center justify-between gap-2">
                 <div>
                   <p className="line-clamp-1 text-sm">
@@ -126,9 +130,10 @@ export default function Page() {
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 2,
                   }).format(transaction.amount)}
+                  </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
           {data.transactions.length === 0 && (
             <div className="col-span-4 text-center text-gray-500">

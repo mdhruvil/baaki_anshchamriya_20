@@ -7,6 +7,7 @@ import {
 } from "@/server/api/trpc";
 import { db } from "@/server/db";
 import { TRPCError } from "@trpc/server";
+import { shops } from "@/server/db/schema";
 
 export const shopRouter = createTRPCRouter({
   findByUpiId: protectedProcedure
@@ -23,4 +24,14 @@ export const shopRouter = createTRPCRouter({
       }
       return shop;
     }),
+  getShops: publicProcedure.query(async () => {
+    const shop = await db.select().from(shops);
+    if (!shop) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "No shop with this UPI ID found",
+      });
+    }
+    return shop;
+  }),
 });
