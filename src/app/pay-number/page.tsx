@@ -73,19 +73,22 @@ function PhoneSearchContent() {
         </div>
 
         {/* Phone input */}
-        <div className="relative mb-8 overflow-hidden rounded-lg border border-gray-200">
+
+     
           <div className="flex items-center p-3">
-            <div className="mr-2 flex items-center">
+            <div className="mr-2 flex w-full items-center">
               <Input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="border-none bg-transparent p-0 text-gray-900 focus-visible:ring-0 focus-visible:ring-offset-0"
+                className="border-none bg-transparent p-4 py-6 text-gray-900"
+
                 placeholder="+91"
               />
             </div>
           </div>
-        </div>
+
+ 
 
         {/* People list */}
         <div>
