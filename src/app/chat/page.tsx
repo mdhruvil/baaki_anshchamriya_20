@@ -50,7 +50,7 @@ export default function ChatPage() {
         ))}
         <div ref={messagesEndRef} />
       </main>
-      <PaymentActions />
+      <PaymentActions upiId={data.shop.upiId} />
     </div>
   );
 }
