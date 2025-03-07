@@ -83,40 +83,42 @@ export function TransactionMessage({
   transaction: Transactiontype;
 }) {
   return (
-    <div
-      className={`mb-4 max-w-[65%] rounded-[16px] bg-gray-100 p-4 text-gray-900`}
-    >
-      <p className="mb-2 text-3xl font-medium">
-        {new Intl.NumberFormat("en-IN", {
-          currency: "INR",
-          style: "currency",
-          minimumFractionDigits: 0,
-          maximumFractionDigits: 2,
-        }).format(transaction.amount)}
-      </p>
-      {transaction.notes && (
-        <div className="mb-2">
-          <p className="text-sm text-gray-600">{transaction.notes}</p>
-        </div>
-      )}
-
-      <div className="flex items-center text-sm text-gray-600">
-        {transaction.isPaid && (
-          <>
-            <div className="flex items-center gap-1">
-              <div className="flex h-4 w-4 items-center justify-center rounded-full bg-green-500">
-                <Check className="h-3 w-3 text-white" />
-              </div>
-              <span>Paid</span>
-            </div>
-            <span className="mx-1">•</span>
-          </>
+    <Link href={`/transaction?id=${transaction.id}`}>
+      <div
+        className={`mb-4 max-w-[65%] rounded-[16px] bg-gray-100 p-4 text-gray-900`}
+      >
+        <p className="mb-2 text-3xl font-medium">
+          {new Intl.NumberFormat("en-IN", {
+            currency: "INR",
+            style: "currency",
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2,
+          }).format(transaction.amount)}
+        </p>
+        {transaction.notes && (
+          <div className="mb-2">
+            <p className="text-sm text-gray-600">{transaction.notes}</p>
+          </div>
         )}
-        <span>{formatDate(new Date(transaction.createdAt!), "dd MMM")}</span>
-        <button className="ml-auto text-gray-900">
-          <ChevronRight className="size-4" />
-        </button>
+
+        <div className="flex items-center text-sm text-gray-600">
+          {transaction.isPaid && (
+            <>
+              <div className="flex items-center gap-1">
+                <div className="flex h-4 w-4 items-center justify-center rounded-full bg-green-500">
+                  <Check className="h-3 w-3 text-white" />
+                </div>
+                <span>Paid</span>
+              </div>
+              <span className="mx-1">•</span>
+            </>
+          )}
+          <span>{formatDate(new Date(transaction.createdAt!), "dd MMM")}</span>
+          <button className="ml-auto text-gray-900">
+            <ChevronRight className="size-4" />
+          </button>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }
