@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Apple, Smartphone } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -56,24 +57,23 @@ export default function InstallPage() {
   };
 
   return (
-    <div className="bg-background text-foreground mx-auto min-h-screen max-w-md p-4">
+    <div className="mx-auto min-h-screen max-w-md bg-background p-4 text-foreground">
       <h1 className="mb-4 text-2xl font-bold">Install Our App</h1>
-      <p className="mb-6">Install our app for a better experience.</p>
+      <p className="mb-2">Install our app.</p>
+      <p className="mb-4 text-lg font-bold">
+        After installing the app, open the installed app.
+      </p>
+      <p>
+        If you can&apos;t install the app <Link href={"/home"}>click here</Link>
+        .
+      </p>
 
       {isInstallable ? (
         <Button onClick={handleInstallClick} className="mb-4 w-full" size="lg">
           Install App
         </Button>
       ) : (
-        !isLoading && (
-          <Button
-            onClick={() => router.push("/home")}
-            className="mb-4 w-full"
-            size="lg"
-          >
-            Continue to App
-          </Button>
-        )
+        !isLoading && <></>
       )}
 
       <div className="mt-8">
