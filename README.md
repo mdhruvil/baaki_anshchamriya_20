@@ -16,6 +16,29 @@ In India, small businesses rely heavily on credit-based transactions, often reco
 - **User-Friendly Interface**: Designed for ease of use, requiring no additional training or hardware.
 - **Scalability & Security**: Built with modern technologies for optimal performance.
 
+## 📸 Screenshots
+
+<div align="center">
+  <!-- Row 1 -->
+  <img src="screenshots/IMG-20250307-WA0005.jpg" width="30%" />
+  <img src="screenshots/IMG-20250307-WA0009.jpg" width="30%" />
+  <img src="screenshots/IMG-20250307-WA0010.jpg" width="30%" />
+  
+  <!-- Row 2 -->
+  <img src="screenshots/IMG-20250307-WA0011.jpg" width="30%" />
+  <img src="screenshots/IMG-20250307-WA0012.jpg" width="30%" />
+  <img src="screenshots/IMG-20250307-WA0013.jpg" width="30%" />
+  
+  <!-- Row 3 -->
+  <img src="screenshots/IMG-20250307-WA0014.jpg" width="30%" />
+  <img src="screenshots/IMG-20250307-WA0015.jpg" width="30%" />
+  <img src="screenshots/IMG-20250307-WA0016.jpg" width="30%" />
+  
+  <!-- Row 4 -->
+  <img src="screenshots/WhatsApp%20Image%202025-03-07%20at%2015.51.20_7a060047.jpg" width="30%" />
+  <img src="screenshots/WhatsApp%20Image%202025-03-07%20at%2015.51.20_d8329297.jpg" width="30%" />
+</div>
+
 ## 🛠️ Technologies Used
 
 - **Frontend & Backend**: NextJS (Full Stack JS Framework),PWA(Progressive Web App)
