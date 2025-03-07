@@ -4,7 +4,7 @@ export default function Login() {
   return (
     <Button
       onClick={() => {
-        signIn("google", { redirectTo: "/home" });
+        void signIn("google", { redirectTo: "/home" });
       }}
     >
       Login
