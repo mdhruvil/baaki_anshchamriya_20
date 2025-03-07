@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1741323415194,
+      "tag": "0000_exotic_next_avengers",
+      "breakpoints": true
+    }
+  ]
+}
