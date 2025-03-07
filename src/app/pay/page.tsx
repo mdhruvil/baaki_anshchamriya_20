@@ -13,6 +13,7 @@ import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AvatarFallback } from "@radix-ui/react-avatar";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -22,7 +23,7 @@ const formSchema = z.object({
   notes: z.string().optional(),
 });
 
-export default function PayPage() {
+function PayPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const utils = api.useUtils();
@@ -165,5 +166,13 @@ export default function PayPage() {
         </Form>
       </div>
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense>
+      <PayPage />
+    </Suspense>
   );
 }
