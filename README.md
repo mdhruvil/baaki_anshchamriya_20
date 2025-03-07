@@ -1,29 +1,72 @@
-# Create T3 App
+# Baaki - Digital Credit Management System
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+## 📌 Overview
 
-## What's next? How do I make an app with this?
+Baaki is an innovative digital credit management solution designed to seamlessly integrate with UPI QR codes. It empowers small and medium-sized shopkeepers by simplifying credit transactions, reducing errors, and improving financial tracking.
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## 🤔 Why Baaki?
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+In India, small businesses rely heavily on credit-based transactions, often recorded manually in notebooks. This method is prone to errors, missed payments, and financial mismanagement. **Baaki** aims to solve this by digitizing credit transactions, ensuring accuracy, and reducing the operational burden on shopkeepers. The incentive is to create a reliable, scalable, and user-friendly system that enhances financial transparency and trust between shopkeepers and customers.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## 🚀 Features
 
-## Learn More
+- **Seamless UPI Integration**: Works with existing UPI QR codes for effortless credit logging.
+- **Automatic Record Updates**: Real-time credit tracking for both shopkeepers and customers.
+- **Error Reduction**: Eliminates manual entries, minimizing financial discrepancies.
+- **User-Friendly Interface**: Designed for ease of use, requiring no additional training or hardware.
+- **Scalability & Security**: Built with modern technologies for optimal performance.
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+## 🛠️ Technologies Used
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+- **Frontend & Backend**: NextJS (Full Stack JS Framework),PWA(Progressive Web App)
+- **Database**: Turso (Distributed edge-optimized sqlite database)
+- **Messaging & Notifications**: Firebase Cloud Messaging (FCM)
+- **Deployment & CI/CD**: GitHub Actions, DevOps automation
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+## 🎯 Problem Statement
 
-## How do I deploy this?
+Traditional credit transactions involve manual entries, leading to:
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+- High risk of errors and financial mismanagement.
+- Time-consuming record consolidation.
+- Difficulties in managing credit during peak hours.
+
+## ✅ Solution
+
+Baaki replaces outdated manual processes with a **digital-first approach**, ensuring:
+
+- Instant logging of credit transactions by scanning UPI QR codes.
+- Secure and automated record-keeping.
+- Increased efficiency for shopkeepers, reducing losses due to forgotten payments.
+
+## 📈 Market Potential
+
+Baaki is targeting India's vast unorganized retail sector:
+
+- **13M+** Kirana stores and small businesses.
+- **$3.04B** furniture hardware market (2024).
+- **$2.37B** school stationery market (2023), projected to grow at 5.3% CAGR.
+- **$165B** textile and apparel market, estimated to reach $350B by 2030.
+
+## 🎯 Target Customers
+
+- Small & medium-sized shopkeepers and wholesalers.
+- Businesses in urban and semi-urban areas with growing digital payment adoption.
+
+## 💰 Business Model
+
+Baaki follows a **freemium model**:
+
+- **Basic Plan**: Free access to essential features.
+- **Advanced Plan**: Subscription-based model with premium features such as WhatsApp/SMS notifications and enhanced analytics.
+
+## 👥 Team
+
+- **Ansh U. Chamriya** (Leader & Developer)
+- **Dhruvil A. Moradiya** (Developer)
+- **Harsh R. Gavit** (Developer)
+- **Kaushal L. Radadiya** (Developer)
+
+---
+
+🌟 **Empowering Small Businesses with Seamless Digital Credit Management!** 🌟
