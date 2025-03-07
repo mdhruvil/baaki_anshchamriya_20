@@ -1,5 +1,7 @@
 "use client";
+import Login from "@/components/Login";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import User from "@/components/User";
 import { api } from "@/trpc/react";
 import { formatDate } from "date-fns";
 import {
@@ -55,6 +57,9 @@ export default function Page() {
   }
 
   if (isError) {
+    if (error.data?.code === "UNAUTHORIZED") {
+      return <Login />;
+    }
     return <div>Error: {error.message}</div>;
   }
 
@@ -64,6 +69,12 @@ export default function Page() {
 
   return (
     <div className="mx-5 mt-5 space-y-6">
+      <User
+        email={data.user.email ?? ""}
+        image={data.user.image ?? ""}
+        id={parseInt(data.user.id) ?? null}
+        name={data.user.name ?? ""}
+      />
       <MainMenu />
       <div className="space-y-3">
         <h3 className="text-lg font-semibold">Businesses</h3>
@@ -81,6 +92,11 @@ export default function Page() {
               </div>
             </Link>
           ))}
+          {data.shops.length === 0 && (
+            <div className="col-span-4 text-center text-gray-500">
+              No businesses found
+            </div>
+          )}
         </div>
       </div>
       <div className="space-y-5">
@@ -99,7 +115,7 @@ export default function Page() {
                   <p className="line-clamp-1 text-sm">
                     {transaction.shop?.name}
                   </p>
-                  <p className="text-muted-foreground text-xs">
+                  <p className="text-xs text-muted-foreground">
                     {formatDate(transaction.createdAt ?? "", "dd MMMM")}
                   </p>
                 </div>
@@ -114,6 +130,11 @@ export default function Page() {
               </div>
             </div>
           ))}
+          {data.transactions.length === 0 && (
+            <div className="col-span-4 text-center text-gray-500">
+              No transactions found
+            </div>
+          )}
         </div>
       </div>
     </div>

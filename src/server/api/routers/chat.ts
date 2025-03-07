@@ -7,7 +7,7 @@ import { db } from "@/server/db";
 import { z } from "zod";
 
 export const chatRouter = createTRPCRouter({
-  getTransactionsByShopId: publicProcedure
+  getTransactionsByShopId: protectedProcedure
     .input(z.object({ shopId: z.number() }))
     .query(async ({ input }) => {
       const { shopId } = input;
