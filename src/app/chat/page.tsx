@@ -1,5 +1,6 @@
 "use client";
 
+import Login from "@/components/Login";
 import {
   PaymentActions,
   ShopHeader,
@@ -32,12 +33,14 @@ function ChatPage() {
     );
   }
 
-  if (error || !data) {
-    return (
-      <div className="flex h-screen items-center justify-center bg-white text-gray-900">
-        <p>Error loading chat: {error?.message ?? "Shop not found"}</p>
-      </div>
-    );
+  if (error) {
+    if (error?.data?.code === "UNAUTHORIZED") {
+      return <Login />;
+    }
+    return <div>Error: {error?.message}</div>;
+  }
+  if (!data) {
+    return <div>No data found</div>;
   }
 
   return (

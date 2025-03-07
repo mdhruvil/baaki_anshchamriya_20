@@ -10,7 +10,7 @@ import { TRPCError } from "@trpc/server";
 import { shops } from "@/server/db/schema";
 
 export const shopRouter = createTRPCRouter({
-  findByUpiId: publicProcedure
+  findByUpiId: protectedProcedure
     .input(z.object({ upiId: z.string().min(1) }))
     .query(async ({ input }) => {
       const shop = await db.query.shops.findFirst({

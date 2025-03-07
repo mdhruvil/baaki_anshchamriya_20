@@ -63,9 +63,9 @@ Baaki follows a **freemium model**:
 ## 👥 Team
 
 - **Ansh U. Chamriya** (Leader & Developer)
-- **Dhruvil A. Moradiya** (Developer)
-- **Harsh R. Gavit** (Developer)
-- **Kaushal L. Radadiya** (Developer)
+- **Dhruvil A. Moradiya** (Fullstack Developer)
+- **Harsh R. Gavit** (Fullstack Developer)
+- **Kaushal L. Radadiya** (Frontend Developer)
 
 ---
 

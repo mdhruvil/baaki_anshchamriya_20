@@ -73,6 +73,7 @@ function PhoneSearchContent() {
         </div>
 
         {/* Phone input */}
+
      
           <div className="flex items-center p-3">
             <div className="mr-2 flex w-full items-center">
@@ -81,10 +82,12 @@ function PhoneSearchContent() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="border-none bg-transparent p-4 py-6 text-gray-900"
+
                 placeholder="+91"
               />
             </div>
           </div>
+
  
 
         {/* People list */}
