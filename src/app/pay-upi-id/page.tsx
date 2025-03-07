@@ -12,7 +12,7 @@ function UpiIdInputContent() {
   const router = useRouter();
 
   const handleContinue = () => {
-    if (upiId) {
+    if (upiId.includes("@")) {
       router.push(`/pay?upiId=${upiId}`);
     }
   };
@@ -34,26 +34,26 @@ function UpiIdInputContent() {
         </div>
 
         {/* UPI ID input */}
-        <div className="relative mb-8 overflow-hidden rounded-lg border border-gray-200">
+
           <div className="flex items-center p-3">
             <div className="mr-2 flex w-full items-center">
               <Input
                 type="text"
                 value={upiId}
                 onChange={(e) => setUpiId(e.target.value)}
-                className="border-none bg-transparent p-0 text-gray-900 focus-visible:ring-0 focus-visible:ring-offset-0"
+                className="border-none bg-transparent  p-4 py-6 text-gray-900 "
                 placeholder="example@upi"
               />
             </div>
           </div>
-        </div>
+     
 
         {/* Continue button */}
         <div className="fixed bottom-8 left-0 right-0 px-4">
           <Button
             onClick={handleContinue}
             className="w-full bg-blue-600 py-3 text-white"
-            disabled={!upiId}
+            disabled={!upiId.includes("@")}
           >
             Continue
           </Button>
