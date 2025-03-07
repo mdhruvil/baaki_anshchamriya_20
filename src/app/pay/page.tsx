@@ -12,7 +12,7 @@ import {
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AvatarFallback } from "@radix-ui/react-avatar";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -24,10 +24,20 @@ const formSchema = z.object({
 
 export default function PayPage() {
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const utils = api.useUtils();
 
   const addTransactionMutation = api.transaction.create.useMutation({
-    onSuccess: () => {
-      toast.success("Transaction added successfully!");
+    onSuccess: async (data) => {
+      await utils.chat.getTransactionsByShopId.invalidate(
+        data[0]?.shopId ? { shopId: data[0]?.shopId } : undefined,
+      );
+    },
+    onSettled: (data) => {
+      if (data) {
+        toast.success("Transaction added successfully!");
+        router.push(`/chat?shopId=${data[0]?.shopId}`);
+      }
     },
     onError(error, variables, context) {
       toast.error(error.message);
@@ -52,16 +62,20 @@ export default function PayPage() {
     resolver: zodResolver(formSchema),
   });
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
+  async function onSubmit(data: z.infer<typeof formSchema>) {
     if (!shop) {
       toast.error("shop is undefined");
       return;
     }
-    addTransactionMutation.mutate({
-      shopId: shop.id,
-      amount: data.amount,
-      notes: data.notes,
-    });
+
+    await addTransactionMutation.mutateAsync(
+      {
+        shopId: shop.id,
+        amount: data.amount,
+        notes: data.notes,
+      },
+      {},
+    );
   }
 
   if (isLoading) {
