@@ -1,5 +1,8 @@
 # Baaki - Digital Credit Management System
 
+
+## [🎥 Watch Demo](https://www.youtube.com/watch?v=KXGMKmv2Uj0)
+
 ## 📌 Overview
 
 Baaki is an innovative digital credit management solution designed to seamlessly integrate with UPI QR codes. It empowers small and medium-sized shopkeepers by simplifying credit transactions, reducing errors, and improving financial tracking.
