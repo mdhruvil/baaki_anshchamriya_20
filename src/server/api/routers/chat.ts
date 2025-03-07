@@ -9,11 +9,15 @@ import { z } from "zod";
 export const chatRouter = createTRPCRouter({
   getTransactionsByShopId: protectedProcedure
     .input(z.object({ shopId: z.number() }))
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
       const { shopId } = input;
 
       const transactions = await db.query.transactions.findMany({
-        where: (transaction, { eq }) => eq(transaction.shopId, shopId),
+        where: (transaction, { eq, and }) =>
+          and(
+            eq(transaction.shopId, shopId),
+            eq(transaction.customerId, ctx.session.user.id),
+          ),
         orderBy: (transaction, { asc }) => asc(transaction.createdAt),
         with: {
           shop: true,
