@@ -1,16 +1,12 @@
+import { db } from "@/server/db";
 import { shops, transactions, users } from "@/server/db/schema";
-import { createClient } from "@libsql/client";
-import { drizzle } from "drizzle-orm/libsql";
 
 export async function seed() {
   try {
     console.log("Seeding the database...");
 
-    const client = createClient({ url: "file:./db.sqlite" });
-    const db = drizzle(client);
-
     // We'll use the existing user with ID be658c00-2803-487a-b824-319798bb9d9e
-    const existingUserId = "43d9b65a-a870-4ab0-b5eb-fc4ca22a2db7";
+    const existingUserId = "41d63103-239a-4323-a7a8-00845d40b3b5";
 
     // Create additional users
     const newUserId1 = crypto.randomUUID();
@@ -118,7 +114,7 @@ export async function seed() {
         customerId: existingUserId,
         amount: 3200.5,
         notes: "Winter collection shopping",
-        isPaid: true,
+        isPaid: false,
       },
       {
         shopId: shop3Id,

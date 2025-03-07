@@ -18,7 +18,7 @@
     "preview": "next build && next start",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "db:seed": "pnpx tsx seed.ts",
+    "db:seed": "pnpx dotenv-cli -- pnpx tsx ./seed.ts",
     "ui": "shadcn"
   },
   "dependencies": {
