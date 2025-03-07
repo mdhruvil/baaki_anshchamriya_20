@@ -1,5 +1,6 @@
 "use client";
 
+import Login from "@/components/Login";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -84,8 +85,12 @@ function PayPage() {
   }
 
   if (isError) {
+    if (error.data?.code === "UNAUTHORIZED") {
+      return <Login />;
+    }
     return <div>Error: {error.message}</div>;
   }
+
   if (!shop) {
     return <div>Something went wrong</div>;
   }
