@@ -3,41 +3,71 @@ import {
   index,
   int,
   primaryKey,
-  sqliteTableCreator,
+  real,
+  sqliteTable,
   text,
 } from "drizzle-orm/sqlite-core";
 import { type AdapterAccount } from "next-auth/adapters";
 
-/**
- * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
- * database instance for multiple projects.
- *
- * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
- */
-export const createTable = sqliteTableCreator((name) => `baaki_anshchamriya_20_${name}`);
-
-export const posts = createTable(
-  "post",
+export const shops = sqliteTable(
+  "shops",
   {
-    id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
-    name: text("name", { length: 256 }),
-    createdById: text("created_by", { length: 255 })
-      .notNull()
-      .references(() => users.id),
-    createdAt: int("created_at", { mode: "timestamp" })
-      .default(sql`(unixepoch())`)
-      .notNull(),
-    updatedAt: int("updatedAt", { mode: "timestamp" }).$onUpdate(
-      () => new Date()
+    id: int("id").primaryKey({ autoIncrement: true }),
+    image: text("image"),
+    merchantId: text("merchant_id").references(() => users.id),
+    phoneNumber: text("phone_number").notNull(),
+    upiId: text("upi_id").notNull(),
+    name: text("name").notNull(),
+    address: text("address"),
+    status: text("status", { enum: ["active", "inactive", "deleted"] }).default(
+      "active",
     ),
+    createdAt: int("created_at", { mode: "timestamp" }).default(
+      sql`CURRENT_TIMESTAMP`,
+    ),
+    updatedAt: int("updated_at", { mode: "timestamp" })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .$onUpdateFn(() => new Date()),
   },
-  (example) => ({
-    createdByIdIdx: index("created_by_idx").on(example.createdById),
-    nameIndex: index("name_idx").on(example.name),
-  })
+  (table) => ({
+    merchantIdIdx: index("merchant_id_idx").on(table.merchantId),
+    upiIdIdx: index("upi_id_idx").on(table.upiId),
+    phoneNumberIdx: index("phone_number_idx").on(table.phoneNumber),
+  }),
 );
 
-export const users = createTable("user", {
+export const shopsRelations = relations(shops, ({ one, many }) => ({
+  merchant: one(users, { fields: [shops.merchantId], references: [users.id] }),
+  transactions: many(transactions),
+}));
+
+export const transactions = sqliteTable(
+  "transactions",
+  {
+    id: int("id").primaryKey({ autoIncrement: true }),
+    shopId: int("shop_id").references(() => shops.id),
+    customerId: text("customer_id").references(() => users.id),
+    amount: real("amount").notNull(),
+    notes: text("notes"),
+    isPaid: int("is_paid", { mode: "boolean" }).notNull(),
+    createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
+    updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
+  },
+  (table) => ({
+    shopIdIdx: index("transactions_shop_id_idx").on(table.shopId),
+    customerIdIdx: index("transactions_customer_id_idx").on(table.customerId),
+  }),
+);
+
+export const transactionsRelations = relations(transactions, ({ one }) => ({
+  shop: one(shops, { fields: [transactions.shopId], references: [shops.id] }),
+  customer: one(users, {
+    fields: [transactions.customerId],
+    references: [users.id],
+  }),
+}));
+
+export const users = sqliteTable("user", {
   id: text("id", { length: 255 })
     .notNull()
     .primaryKey()
@@ -52,9 +82,11 @@ export const users = createTable("user", {
 
 export const usersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
+  shops: many(shops),
+  transactions: many(transactions),
 }));
 
-export const accounts = createTable(
+export const accounts = sqliteTable(
   "account",
   {
     userId: text("user_id", { length: 255 })
@@ -78,14 +110,14 @@ export const accounts = createTable(
       columns: [account.provider, account.providerAccountId],
     }),
     userIdIdx: index("account_user_id_idx").on(account.userId),
-  })
+  }),
 );
 
 export const accountsRelations = relations(accounts, ({ one }) => ({
   user: one(users, { fields: [accounts.userId], references: [users.id] }),
 }));
 
-export const sessions = createTable(
+export const sessions = sqliteTable(
   "session",
   {
     sessionToken: text("session_token", { length: 255 }).notNull().primaryKey(),
@@ -96,14 +128,14 @@ export const sessions = createTable(
   },
   (session) => ({
     userIdIdx: index("session_userId_idx").on(session.userId),
-  })
+  }),
 );
 
 export const sessionsRelations = relations(sessions, ({ one }) => ({
   user: one(users, { fields: [sessions.userId], references: [users.id] }),
 }));
 
-export const verificationTokens = createTable(
+export const verificationTokens = sqliteTable(
   "verification_token",
   {
     identifier: text("identifier", { length: 255 }).notNull(),
@@ -112,5 +144,5 @@ export const verificationTokens = createTable(
   },
   (vt) => ({
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
-  })
+  }),
 );

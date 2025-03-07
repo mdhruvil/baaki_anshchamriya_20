@@ -1,11 +1,11 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "332310a7-2392-4359-8dad-d41a6dd791b1",
+  "id": "e525e785-483e-4ce5-8cab-2c1a8dec8115",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "baaki_anshchamriya_20_account": {
-      "name": "baaki_anshchamriya_20_account",
+    "account": {
+      "name": "account",
       "columns": {
         "user_id": {
           "name": "user_id",
@@ -95,10 +95,10 @@
         }
       },
       "foreignKeys": {
-        "baaki_anshchamriya_20_account_user_id_baaki_anshchamriya_20_user_id_fk": {
-          "name": "baaki_anshchamriya_20_account_user_id_baaki_anshchamriya_20_user_id_fk",
-          "tableFrom": "baaki_anshchamriya_20_account",
-          "tableTo": "baaki_anshchamriya_20_user",
+        "account_user_id_user_id_fk": {
+          "name": "account_user_id_user_id_fk",
+          "tableFrom": "account",
+          "tableTo": "user",
           "columnsFrom": [
             "user_id"
           ],
@@ -110,92 +110,18 @@
         }
       },
       "compositePrimaryKeys": {
-        "baaki_anshchamriya_20_account_provider_provider_account_id_pk": {
+        "account_provider_provider_account_id_pk": {
           "columns": [
             "provider",
             "provider_account_id"
           ],
-          "name": "baaki_anshchamriya_20_account_provider_provider_account_id_pk"
+          "name": "account_provider_provider_account_id_pk"
         }
       },
       "uniqueConstraints": {}
     },
-    "baaki_anshchamriya_20_post": {
-      "name": "baaki_anshchamriya_20_post",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": true
-        },
-        "name": {
-          "name": "name",
-          "type": "text(256)",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "created_by": {
-          "name": "created_by",
-          "type": "text(255)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "(unixepoch())"
-        },
-        "updatedAt": {
-          "name": "updatedAt",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        }
-      },
-      "indexes": {
-        "created_by_idx": {
-          "name": "created_by_idx",
-          "columns": [
-            "created_by"
-          ],
-          "isUnique": false
-        },
-        "name_idx": {
-          "name": "name_idx",
-          "columns": [
-            "name"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {
-        "baaki_anshchamriya_20_post_created_by_baaki_anshchamriya_20_user_id_fk": {
-          "name": "baaki_anshchamriya_20_post_created_by_baaki_anshchamriya_20_user_id_fk",
-          "tableFrom": "baaki_anshchamriya_20_post",
-          "tableTo": "baaki_anshchamriya_20_user",
-          "columnsFrom": [
-            "created_by"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "baaki_anshchamriya_20_session": {
-      "name": "baaki_anshchamriya_20_session",
+    "session": {
+      "name": "session",
       "columns": {
         "session_token": {
           "name": "session_token",
@@ -229,10 +155,10 @@
         }
       },
       "foreignKeys": {
-        "baaki_anshchamriya_20_session_userId_baaki_anshchamriya_20_user_id_fk": {
-          "name": "baaki_anshchamriya_20_session_userId_baaki_anshchamriya_20_user_id_fk",
-          "tableFrom": "baaki_anshchamriya_20_session",
-          "tableTo": "baaki_anshchamriya_20_user",
+        "session_userId_user_id_fk": {
+          "name": "session_userId_user_id_fk",
+          "tableFrom": "session",
+          "tableTo": "user",
           "columnsFrom": [
             "userId"
           ],
@@ -246,8 +172,235 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "baaki_anshchamriya_20_user": {
-      "name": "baaki_anshchamriya_20_user",
+    "shops": {
+      "name": "shops",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "image": {
+          "name": "image",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "merchant_id": {
+          "name": "merchant_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "phone_number": {
+          "name": "phone_number",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "upi_id": {
+          "name": "upi_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "address": {
+          "name": "address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "'active'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {
+        "merchant_id_idx": {
+          "name": "merchant_id_idx",
+          "columns": [
+            "merchant_id"
+          ],
+          "isUnique": false
+        },
+        "upi_id_idx": {
+          "name": "upi_id_idx",
+          "columns": [
+            "upi_id"
+          ],
+          "isUnique": false
+        },
+        "phone_number_idx": {
+          "name": "phone_number_idx",
+          "columns": [
+            "phone_number"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "shops_merchant_id_user_id_fk": {
+          "name": "shops_merchant_id_user_id_fk",
+          "tableFrom": "shops",
+          "tableTo": "user",
+          "columnsFrom": [
+            "merchant_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "transactions": {
+      "name": "transactions",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "shop_id": {
+          "name": "shop_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "customer_id": {
+          "name": "customer_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "amount": {
+          "name": "amount",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "is_paid": {
+          "name": "is_paid",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(CURRENT_TIMESTAMP)"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(CURRENT_TIMESTAMP)"
+        }
+      },
+      "indexes": {
+        "transactions_shop_id_idx": {
+          "name": "transactions_shop_id_idx",
+          "columns": [
+            "shop_id"
+          ],
+          "isUnique": false
+        },
+        "transactions_customer_id_idx": {
+          "name": "transactions_customer_id_idx",
+          "columns": [
+            "customer_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "transactions_shop_id_shops_id_fk": {
+          "name": "transactions_shop_id_shops_id_fk",
+          "tableFrom": "transactions",
+          "tableTo": "shops",
+          "columnsFrom": [
+            "shop_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "transactions_customer_id_user_id_fk": {
+          "name": "transactions_customer_id_user_id_fk",
+          "tableFrom": "transactions",
+          "tableTo": "user",
+          "columnsFrom": [
+            "customer_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "user": {
+      "name": "user",
       "columns": {
         "id": {
           "name": "id",
@@ -291,8 +444,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "baaki_anshchamriya_20_verification_token": {
-      "name": "baaki_anshchamriya_20_verification_token",
+    "verification_token": {
+      "name": "verification_token",
       "columns": {
         "identifier": {
           "name": "identifier",
@@ -319,12 +472,12 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {
-        "baaki_anshchamriya_20_verification_token_identifier_token_pk": {
+        "verification_token_identifier_token_pk": {
           "columns": [
             "identifier",
             "token"
           ],
-          "name": "baaki_anshchamriya_20_verification_token_identifier_token_pk"
+          "name": "verification_token_identifier_token_pk"
         }
       },
       "uniqueConstraints": {}
