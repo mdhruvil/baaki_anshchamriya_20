@@ -1,119 +1,108 @@
 "use client";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { api } from "@/trpc/react";
-import { formatDate } from "date-fns";
-import {
-  AtSignIcon,
-  ScanQrCodeIcon,
-  SmartphoneIcon,
-  type LucideIcon,
-} from "lucide-react";
-import Link from "next/link";
 
-const mainMenu: Array<{ Icon: LucideIcon; name: string; href: string }> = [
-  {
-    name: "Scan any \nQR code",
-    href: "/scan",
-    Icon: ScanQrCodeIcon,
-  },
-  {
-    name: "Pay phone number",
-    href: "/pay-number",
-    Icon: SmartphoneIcon,
-  },
-  {
-    name: "Pay any UPI ID",
-    href: "/pay-upi-id",
-    Icon: AtSignIcon,
-  },
-];
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Apple, Smartphone } from "lucide-react";
+import { useRouter } from "next/navigation";
 
-function MainMenu() {
-  return (
-    <div className="grid grid-cols-3">
-      {mainMenu.map((menu) => {
-        return (
-          <Link
-            key={menu.name}
-            href={menu.href}
-            className="flex flex-col items-center justify-center gap-2"
-          >
-            <menu.Icon className="size-6 text-blue-500" />
-            <div className="w-[80%] text-center text-xs">{menu.name}</div>
-          </Link>
-        );
-      })}
-    </div>
-  );
+interface BeforeInstallPromptEvent extends Event {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed"; platform: string }>;
 }
 
-export default function Page() {
-  const { data, isLoading, isError, error } = api.home.getData.useQuery();
+export default function InstallPage() {
+  const router = useRouter();
+  const [deferredPrompt, setDeferredPrompt] =
+    useState<BeforeInstallPromptEvent | null>(null);
+  const [isInstallable, setIsInstallable] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setIsInstallable(true);
+    };
 
-  if (isError) {
-    return <div>Error: {error.message}</div>;
-  }
+    window.addEventListener(
+      "beforeinstallprompt",
+      handleBeforeInstallPrompt as EventListener,
+    );
 
-  if (!data) {
-    return <div>Something went wrong</div>;
-  }
+    // Wait 5 seconds before showing the redirect button
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 5000);
+
+    return () => {
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt as EventListener,
+      );
+      clearTimeout(timer);
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return console.log("No deferred prompt");
+
+    void deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === "accepted") {
+      setIsInstallable(false);
+      router.push("/home");
+    }
+    setDeferredPrompt(null);
+  };
 
   return (
-    <div className="mx-5 mt-5 space-y-6">
-      <MainMenu />
-      <div className="space-y-3">
-        <h3 className="text-lg font-semibold">Businesses</h3>
-        <div className="grid grid-cols-4 gap-4">
-          {data.shops.map((shop) => (
-            <Link key={shop.id} href={`/chat?shopId=${shop.id}`}>
-              <div className="flex flex-col items-center gap-2">
-                <Avatar className="size-12">
-                  <AvatarImage src={shop.image ?? ""} />
-                  <AvatarFallback>{shop.name}</AvatarFallback>
-                </Avatar>
-                <span className="line-clamp-2 text-center text-xs">
-                  {shop.name}
-                </span>
-              </div>
-            </Link>
-          ))}
+    <div className="bg-background text-foreground mx-auto min-h-screen max-w-md p-4">
+      <h1 className="mb-4 text-2xl font-bold">Install Our App</h1>
+      <p className="mb-6">Install our app for a better experience.</p>
+
+      {isInstallable ? (
+        <Button onClick={handleInstallClick} className="mb-4 w-full" size="lg">
+          Install App
+        </Button>
+      ) : (
+        !isLoading && (
+          <Button
+            onClick={() => router.push("/home")}
+            className="mb-4 w-full"
+            size="lg"
+          >
+            Continue to App
+          </Button>
+        )
+      )}
+
+      <div className="mt-8">
+        <h2 className="mb-4 text-xl font-semibold">
+          Installation Instructions
+        </h2>
+
+        <div className="mb-6">
+          <h3 className="mb-2 flex items-center text-lg font-semibold">
+            <Apple className="mr-2" /> iOS Installation
+          </h3>
+          <ol className="list-inside list-decimal space-y-2">
+            <li>Open this page in Safari</li>
+            <li>Tap the Share button</li>
+            <li>Scroll down and tap &quot;Add to Home Screen&quot;</li>
+            <li>Tap &quot;Add&quot; in the top right corner</li>
+          </ol>
         </div>
-      </div>
-      <div className="space-y-5">
-        <h3 className="text-lg font-semibold">Transactions</h3>
-        <div className="space-y-6">
-          {data.transactions.map((transaction) => (
-            <div key={transaction.id} className="flex items-center gap-3">
-              <Link href={`/chat?shopId=${transaction.shopId}`}>
-                <Avatar className="size-10">
-                  <AvatarImage src={transaction.shop?.image ?? ""} />
-                  <AvatarFallback>{transaction.shop?.name}</AvatarFallback>
-                </Avatar>
-              </Link>
-              <div className="flex w-full items-center justify-between gap-2">
-                <div>
-                  <p className="line-clamp-1 text-sm">
-                    {transaction.shop?.name}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {formatDate(transaction.createdAt ?? "", "dd MMMM")}
-                  </p>
-                </div>
-                <div>
-                  {new Intl.NumberFormat("en-IN", {
-                    currency: "INR",
-                    style: "currency",
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 2,
-                  }).format(transaction.amount)}
-                </div>
-              </div>
-            </div>
-          ))}
+
+        <div>
+          <h3 className="mb-2 flex items-center text-lg font-semibold">
+            <Smartphone className="mr-2" /> Android Installation
+          </h3>
+          <ol className="list-inside list-decimal space-y-2">
+            <li>Open this page in Chrome</li>
+            <li>Tap the menu icon (three dots) in the top right</li>
+            <li>Tap &quot;Add to Home screen&quot;</li>
+            <li>Tap &quot;Add&quot; in the popup</li>
+          </ol>
         </div>
       </div>
     </div>
