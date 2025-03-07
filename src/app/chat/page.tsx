@@ -7,9 +7,9 @@ import {
 } from "@/components/ui/chat-comp";
 import { api } from "@/trpc/react";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 
-export default function ChatPage() {
+function ChatPage() {
   const searchParams = useSearchParams();
   const shopId = searchParams.get("shopId");
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -59,5 +59,13 @@ export default function ChatPage() {
         />
       </div>
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense>
+      <ChatPage />
+    </Suspense>
   );
 }
